@@ -1,0 +1,49 @@
+# Custom Functions
+cmd open ${{
+    case $(file --mime-type "$f" -bL) in
+        text/*|application/json) $EDITOR "$f";;
+        application/x-executable) "$f";;
+        *) xdg-open "$f" ;;
+    esac
+}}
+
+cmd mkdir %{{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile %{{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+cmd fzf_jump ${{
+  res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
+  if [ -f "$res" ]; then
+    cmd="select"
+  elif [ -d "$res" ]; then
+    cmd="cd"
+  fi
+  lf -remote "send $id $cmd \"$res\""
+}}
+
+#remove bindings
+map f
+map m
+
+
+# Mappings
+map mf mkfile
+map md mkdir
+map . set hidden!
+map DD delete
+map f fzf_jump
+map <enter> open
+map c copy
+map x cut
+map p paste
+
+# Movement
+map gc cd ~/.config
