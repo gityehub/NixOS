@@ -1,8 +1,12 @@
+# kitty image preview is work in progress
 # Custom Functions
-cmd open ${{
+ cmd open ${{
     case $(file --mime-type "$f" -bL) in
-        text/*|application/json) $EDITOR "$f";;
-        application/x-executable) "$f";;
+        text/*|application/json) vim "$f";;
+        application/x-executable) vim "$f";;
+        image/*) imv "$f";;
+        video/*) setsid -f mpv --force-window=yes "$f" >/dev/null 2>&1;;
+        audio/*) setsid -f mpv --force-window=yes "$f" >/dev/null 2>&1;;
         *) xdg-open "$f" ;;
     esac
 }}
@@ -16,7 +20,7 @@ cmd mkdir %{{
 cmd mkfile %{{
   printf "File Name: "
   read ans
-  $EDITOR $ans
+  touch $ans
 }}
 
 cmd fzf_jump ${{
@@ -29,7 +33,7 @@ cmd fzf_jump ${{
   lf -remote "send $id $cmd \"$res\""
 }}
 
-#remove bindings
+# Remove bindings
 map f
 map m
 
@@ -44,6 +48,8 @@ map <enter> open
 map c copy
 map x cut
 map p paste
+map U unselect
 
 # Movement
 map gc cd ~/.config
+
