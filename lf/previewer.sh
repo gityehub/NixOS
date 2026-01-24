@@ -14,8 +14,19 @@ case "$(file -Lb --mime-type "$file")" in
   image/*)
     draw "$file"
     ;;
+  video/*)
+  thumb="$(mktemp --suffix=.png)"
+    ffmpegthumbnailer \
+      -i "$file" \
+      -o "$thumb" \
+      -s 0 \
+      -t 10% \
+      -q 8
+    draw "$thumb"
+    rm -f "$thumb"
+    ;;
   *)
     bat --color=always --style=plain "$file" 2>/dev/null \
       || sed -n '1,200p' "$file"
     ;;
-esac
+esac 
