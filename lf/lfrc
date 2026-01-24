@@ -24,6 +24,18 @@ cmd mkfile %{{
   touch $ans
 }}
 
+cmd chmod ${{
+  printf "Mode Bits: "
+  read ans
+
+  for file in "$fx"
+  do
+    chmod $ans $file
+  done
+
+  lf -remote 'send reload'
+}}
+
 cmd fzf_jump ${{
   res="$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')"
   if [ -f "$res" ]; then
@@ -34,22 +46,35 @@ cmd fzf_jump ${{
   lf -remote "send $id $cmd \"$res\""
 }}
 
+cmd open_config ${{
+    res="$(find ~/.config -maxdepth 1 -type d | fzf --reverse --header='Jump to directory')"
+    [ -z "$res" ] && exit
+    lf -remote "send $id cd \"$res\""
+}}
+
 # Remove bindings
 map f
 map m
+map c
 
 # Mappings
 map mf mkfile
 map md mkdir
+map ch chmod
 map . set hidden!
 map DD delete
 map f fzf_jump
 map <enter> open
-map c copy
+map y copy
 map x cut
 map p paste
 map U unselect
+map o open_config
 
 # Movement
 map gc cd ~/.config
-
+map gd cd ~/Documents
+map gD cd ~/Downloads
+map gp cd ~/Pictures
+map gv cd ~/Videos
+map gs cd ~/Syncthing
