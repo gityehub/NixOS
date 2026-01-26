@@ -3,8 +3,8 @@ set cleaner ~/.config/lf/cleaner.sh
 # Custom Functions
  cmd open ${{
     case $(file --mime-type "$f" -bL) in
-        text/*|application/json) vim "$f";;
-        application/x-executable) vim "$f";;
+        text/*|application/json) nvim "$f";;
+        application/x-executable) nvim "$f";;
         image/*) imv "$f";;
         video/*) setsid -f mpv --force-window=yes "$f" >/dev/null 2>&1;;
         audio/*) setsid -f mpv --force-window=yes "$f" >/dev/null 2>&1;;

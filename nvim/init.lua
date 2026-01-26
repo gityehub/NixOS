@@ -1,6 +1,7 @@
 -- ================================================================================================
 -- title : Suckless NeoVim Config
 -- author: Radley E. Sidwell-lewis
+-- source: https://github.com/radleylewis/nvim-lite/blob/master/init.lua#L443 
 -- ================================================================================================
 
 -- theme & transparency
